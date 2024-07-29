@@ -24,6 +24,16 @@ enum custom_keycodes {
     RALT_E = RALT_T(KC_E),
     RCTL_I = RCTL_T(KC_I),
     RSFT_O = RSFT_T(KC_O),
+
+    LSFT_SL = LSFT_T(KC_SLASH),
+    LCTL_UN = LCTL_T(KC_UNDS),
+    LALT_LP = LALT_T(KC_LPRN),
+    LGUI_RP = LGUI_T(KC_RPRN),
+    RGUI_EQ = RGUI_T(KC_EQL),
+    RALT_PL = RALT_T(KC_PLUS),
+    RCTL_DA = RCTL_T(KC_MINS),
+    RSFT_PR = RSFT_T(KC_PERC),
+
     LT1_ESC = LT(_MEDIA, KC_ESC),
     LT2_ENT = LT(_NAVIGATION, KC_ENT),
     LT3_TAB = LT(_MOUSYS, KC_TAB),
@@ -185,12 +195,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       *               └───┤Tab│   │Bsp├───┘
       *                   └───┘   └───┘
       */
-    //   TODO: Add MT for symbols
     [_SYMBOLS] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                    |--------------------------------------------|
            KC_GRV,  KC_AMPR, KC_LBRC, KC_RBRC, KC_ASTR,                      KC_CIRC, KC_LT,   KC_GT,   KC_DLR,  KC_DQT,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           KC_SLASH,KC_UNDS, KC_LPRN, KC_RPRN, KC_BSLS,                      KC_TILD, KC_EQL,  KC_PLUS, KC_MINS, KC_PERC,
+           LSFT_SL, LCTL_UN, LALT_LP, LGUI_RP, KC_BSLS,                      KC_TILD, RGUI_EQ,  RALT_PL, RCTL_DA, RSFT_PR,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_AT,   KC_PIPE, KC_LCBR, KC_LCBR, XXX,                          XXX,     KC_HASH, KC_SCLN, KC_COLN, KC_EXLM,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
