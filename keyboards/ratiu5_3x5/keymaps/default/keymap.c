@@ -52,6 +52,21 @@ enum custom_keycodes {
     PSPACE = LCTL(KC_LEFT),
     NSPACE = LCTL(KC_RIGHT),
     ALFRED = LGUI(KC_SPACE),
+
+    COM_SEMI = SAFE_RANGE,
+    DOT_COLO,
+    QM_EXLA
+};
+
+const key_override_t comma_semi_override = ko_make_basic(MOD_MASK_SHIFT, COM_SEMI, KC_SCLN);
+const key_override_t dot_colon_override = ko_make_basic(MOD_MASK_SHIFT, DOT_COLO, KC_COLN);
+const key_override_t qm_exclaim_override = ko_make_basic(MOD_MASK_SHIFT, QM_EXLA, KC_EXLM);
+
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &comma_semi_override,
+    &dot_colon_override,
+    &qm_exclaim_override,
+    NULL // Null terminate the array
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -97,6 +112,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // If it's not a tap or it's interrupted, let QMK handle it as a normal mod-tap
             }
             break;
+            
+        case COM_SEMI:
+            if (record->event.pressed) {
+                register_code(KC_COMM);
+            } else {
+                unregister_code(KC_COMM);
+            }
+            return false;
+        case DOT_COLO:
+            if (record->event.pressed) {
+                register_code(KC_DOT);
+            } else {
+                unregister_code(KC_DOT);
+            }
+            return false;
+        case QM_EXLA:
+            if (record->event.pressed) {
+                register_code(KC_SLSH);
+            } else {
+                unregister_code(KC_SLSH);
+            }
+            return false;
     }
     return true;
 }
@@ -118,7 +155,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       */
     [_COLEMAK] = LAYOUT_split_3x5_3(
         //|--------------------------------------------|                    |--------------------------------------------|
-           KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_P,
+           KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_QUOTE,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            LSFT_A,  LCTL_R,  LALT_S,  LGUI_T,  KC_G,                         KC_M,    RGUI_N,  RALT_E,  RCTL_I,  RSFT_O,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
