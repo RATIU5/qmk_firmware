@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
+#include "quantum/process_keycode/process_key_override.h"
 
 enum layers {
     _COLEMAK = 0, // 0
@@ -55,22 +56,58 @@ enum custom_keycodes {
 
     COM_SEMI = SAFE_RANGE,
     DOT_COLO,
-    QM_EXLA
+    QM_EXLA,
 };
 
-const key_override_t comma_semi_override = ko_make_basic(MOD_MASK_SHIFT, COM_SEMI, KC_SCLN);
-const key_override_t dot_colon_override = ko_make_basic(MOD_MASK_SHIFT, DOT_COLO, KC_COLN);
-const key_override_t qm_exclaim_override = ko_make_basic(MOD_MASK_SHIFT, QM_EXLA, KC_EXLM);
+const key_override_t comma_semicolon_override = ko_make_basic(MOD_MASK_SHIFT, COM_SEMI, KC_SEMICOLON);
+const key_override_t dot_colon_override = ko_make_basic(MOD_MASK_SHIFT, DOT_COLO, KC_COLON);
+const key_override_t slash_exclaim_override = ko_make_basic(MOD_MASK_SHIFT, QM_EXLA, KC_EXCLAIM);
 
 const key_override_t **key_overrides = (const key_override_t *[]){
-    &comma_semi_override,
+    &comma_semicolon_override,
     &dot_colon_override,
-    &qm_exclaim_override,
-    NULL // Null terminate the array
+    &slash_exclaim_override,
+    NULL
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    static bool shift_held = false;
+    uint8_t mod_state = get_mods();
+    uint8_t oneshot_mod_state = get_oneshot_mods();
+    bool is_shifted = (mod_state | oneshot_mod_state) & MOD_MASK_SHIFT;
+    
     switch (keycode) {
+        case COM_SEMI:
+        case DOT_COLO:
+        case QM_EXLA:
+            if (record->event.pressed) {
+                if (is_shifted) {
+                    unregister_mods(MOD_MASK_SHIFT);
+                    clear_oneshot_mods();
+                    switch (keycode) {
+                        case COM_SEMI: SEND_STRING(";"); break;
+                        case DOT_COLO: SEND_STRING(":"); break;
+                        case QM_EXLA:  SEND_STRING("!"); break;
+                    }
+                    register_mods(mod_state);
+                } else {
+                    switch (keycode) {
+                        case COM_SEMI: SEND_STRING(","); break;
+                        case DOT_COLO: SEND_STRING("."); break;
+                        case QM_EXLA:  SEND_STRING("?"); break;
+                    }
+                }
+            }
+            return false;
+
+        case LSFT_A:
+            if (record->event.pressed) {
+                shift_held = true;
+            } else {
+                shift_held = false;
+            }
+            return true;  // Let QMK handle the keypress
+
         case LSFT_T(KC_UNDS):
         case LALT_T(KC_LPRN):
         case LGUI_T(KC_RPRN):
@@ -78,62 +115,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RSFT_T(KC_PERC):
             if (record->event.pressed) {
                 if (record->tap.count && !record->tap.interrupted) {
-                    uint8_t mods = get_mods();
-                    uint8_t oneshot_mods = get_oneshot_mods();
-                    clear_mods();
-                    clear_oneshot_mods();
-                    
-                    char to_send = 0;
-                    switch (keycode) {
-                        case LSFT_T(KC_UNDS): to_send = '_'; break;
-                        case LALT_T(KC_LPRN): to_send = '('; break;
-                        case LGUI_T(KC_RPRN): to_send = ')'; break;
-                        case RALT_T(KC_PLUS): to_send = '+'; break;
-                        case RSFT_T(KC_PERC): to_send = '%'; break;
+                    if (shift_held || is_shifted) {
+                        unregister_mods(MOD_MASK_SHIFT);
+                        clear_oneshot_mods();
+                        
+                        switch (keycode) {
+                            case LSFT_T(KC_UNDS): SEND_STRING("_"); break;
+                            case LALT_T(KC_LPRN): SEND_STRING("("); break;
+                            case LGUI_T(KC_RPRN): SEND_STRING(")"); break;
+                            case RALT_T(KC_PLUS): SEND_STRING("+"); break;
+                            case RSFT_T(KC_PERC): SEND_STRING("%"); break;
+                        }
+                        
+                        register_mods(mod_state);
+                        return false;
                     }
-                    
-                    if (mods & MOD_MASK_CTRL || oneshot_mods & MOD_MASK_CTRL) {
-                        SEND_STRING(SS_LCTL(SS_TAP(X_ESCAPE))); // Send Ctrl+Esc
-                        send_char(to_send);
-                    } else if (mods & MOD_MASK_ALT || oneshot_mods & MOD_MASK_ALT) {
-                        SEND_STRING(SS_LALT(SS_TAP(X_ESCAPE))); // Send Alt+Esc
-                        send_char(to_send);
-                    } else if (mods & MOD_MASK_GUI || oneshot_mods & MOD_MASK_GUI) {
-                        SEND_STRING(SS_LGUI(SS_TAP(X_ESCAPE))); // Send Gui+Esc
-                        send_char(to_send);
-                    } else {
-                        send_char(to_send);
-                    }
-                    
-                    set_mods(mods);
-                    set_oneshot_mods(oneshot_mods);
-                    return false;
                 }
                 // If it's not a tap or it's interrupted, let QMK handle it as a normal mod-tap
             }
             break;
-            
-        case COM_SEMI:
-            if (record->event.pressed) {
-                register_code(KC_COMM);
-            } else {
-                unregister_code(KC_COMM);
-            }
-            return false;
-        case DOT_COLO:
-            if (record->event.pressed) {
-                register_code(KC_DOT);
-            } else {
-                unregister_code(KC_DOT);
-            }
-            return false;
-        case QM_EXLA:
-            if (record->event.pressed) {
-                register_code(KC_SLSH);
-            } else {
-                unregister_code(KC_SLSH);
-            }
-            return false;
     }
     return true;
 }
