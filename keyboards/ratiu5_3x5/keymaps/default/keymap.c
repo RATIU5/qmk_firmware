@@ -52,6 +52,21 @@ enum custom_keycodes {
     PSPACE = LCTL(KC_LEFT),
     NSPACE = LCTL(KC_RIGHT),
     ALFRED = LGUI(KC_SPACE),
+
+    CS_COMA = SAFE_RANGE,
+    CS_PERI,
+    CS_SLSH,
+};
+
+const key_override_t comma_semicolon_override = ko_make_basic(MOD_MASK_SHIFT, CS_COMA, KC_SCLN);
+const key_override_t dot_colon_override = ko_make_basic(MOD_MASK_SHIFT, CS_PERI, KC_COLN);
+const key_override_t slash_exclaim_override = ko_make_basic(MOD_MASK_SHIFT, CS_SLSH, KC_EXLM);
+
+const key_override_t **key_overrides = (const key_override_t *[]){
+    &comma_semicolon_override,
+    &dot_colon_override,
+    &slash_exclaim_override,
+    NULL // Null terminate the array
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -97,6 +112,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // If it's not a tap or it's interrupted, let QMK handle it as a normal mod-tap
             }
             break;
+        case KC_COMM:
+            if (record->event.pressed) {
+                if (get_mods() & MOD_MASK_SHIFT) {
+                    if (get_mods() & MOD_MASK_CSAG) {
+                        unregister_code(KC_LSFT);
+                        unregister_code(KC_RSFT);
+                        SEND_STRING(";");
+                        set_mods(get_mods());
+                    } else {
+                        SEND_STRING(":");
+                    }
+                } else {
+                    SEND_STRING(",");
+                }
+            }
+            return false;
+        case KC_DOT:
+            if (record->event.pressed) {
+                if (get_mods() & MOD_MASK_SHIFT) {
+                    if (get_mods() & MOD_MASK_CSAG) {
+                        unregister_code(KC_LSFT);
+                        unregister_code(KC_RSFT);
+                        SEND_STRING(":");
+                        set_mods(get_mods());
+                    } else {
+                        SEND_STRING(">");
+                    }
+                } else {
+                    SEND_STRING(".");
+                }
+            }
+            return false;
+        case KC_SLSH:
+            if (record->event.pressed) {
+                if (get_mods() & MOD_MASK_SHIFT) {
+                    SEND_STRING("!");
+                } else {
+                    SEND_STRING("?");
+                }
+            }
+            return false;
     }
     return true;
 }
