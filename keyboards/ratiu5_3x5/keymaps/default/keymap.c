@@ -53,21 +53,14 @@ enum custom_keycodes {
     NSPACE = LCTL(KC_RIGHT),
     ALFRED = LGUI(KC_SPACE),
 
-    CS_COMA = SAFE_RANGE,
-    CS_PERI,
-    CS_SLSH,
+    COM_SEMI = SAFE_RANGE,
+    DOT_COLO,
+    QM_EXLA,
 };
 
-const key_override_t comma_semicolon_override = ko_make_basic(MOD_MASK_SHIFT, CS_COMA, KC_SCLN);
-const key_override_t dot_colon_override = ko_make_basic(MOD_MASK_SHIFT, CS_PERI, KC_COLN);
-const key_override_t slash_exclaim_override = ko_make_basic(MOD_MASK_SHIFT, CS_SLSH, KC_EXLM);
-
-const key_override_t **key_overrides = (const key_override_t *[]){
-    &comma_semicolon_override,
-    &dot_colon_override,
-    &slash_exclaim_override,
-    NULL // Null terminate the array
-};
+bool shifted(void) {
+    return ((get_mods() & MOD_BIT(KC_LSFT)) == MOD_BIT(KC_LSFT) || (get_mods() & MOD_BIT(KC_RSFT)) == MOD_BIT(KC_RSFT));
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -112,47 +105,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // If it's not a tap or it's interrupted, let QMK handle it as a normal mod-tap
             }
             break;
-        case KC_COMM:
+        case COM_SEMI:
             if (record->event.pressed) {
-                if (get_mods() & MOD_MASK_SHIFT) {
-                    if (get_mods() & MOD_MASK_CSAG) {
-                        unregister_code(KC_LSFT);
-                        unregister_code(KC_RSFT);
-                        SEND_STRING(";");
-                        set_mods(get_mods());
-                    } else {
-                        SEND_STRING(":");
-                    }
+                if (shifted()) {
+                    tap_code(KC_SCLN);
                 } else {
-                    SEND_STRING(",");
+                    tap_code(KC_COMM);
                 }
             }
-            return false;
-        case KC_DOT:
+            break;
+        case DOT_COLO:
             if (record->event.pressed) {
-                if (get_mods() & MOD_MASK_SHIFT) {
-                    if (get_mods() & MOD_MASK_CSAG) {
-                        unregister_code(KC_LSFT);
-                        unregister_code(KC_RSFT);
-                        SEND_STRING(":");
-                        set_mods(get_mods());
-                    } else {
-                        SEND_STRING(">");
-                    }
+                if (shifted()) {
+                    tap_code16(KC_COLN);
                 } else {
-                    SEND_STRING(".");
+                    tap_code(KC_DOT);
                 }
             }
-            return false;
-        case KC_SLSH:
+            break;
+        case QM_EXLA:
             if (record->event.pressed) {
-                if (get_mods() & MOD_MASK_SHIFT) {
-                    SEND_STRING("!");
+                if (shifted()) {
+                    tap_code16(KC_EXLM);
                 } else {
-                    SEND_STRING("?");
+                    tap_code16(KC_QUES);
                 }
             }
-            return false;
+            break;
     }
     return true;
 }
@@ -178,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            LSFT_A,  LCTL_R,  LALT_S,  LGUI_T,  KC_G,                         KC_M,    RGUI_N,  RALT_E,  RCTL_I,  RSFT_O,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,
+           KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    COM_SEMI,DOT_COLO,QM_EXLA,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                       LT1_ESC, LT2_BSP, LT3_DEL,    LT4_ENT, LT5_SPC, LT6_TAB
         //                           |--------+--------+--------|  |--------+--------+--------|
