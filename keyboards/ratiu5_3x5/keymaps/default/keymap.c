@@ -183,7 +183,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          XXX,     XXX,     XXX,     XXX,     XXX,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           MOD_LSFT,MOD_LCTL,MOD_LALT,MOD_LGUI,XXX,                          XXX,     KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
+           KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXX,                          XXX,     KC_MPRV, KC_VOLD, KC_VOLU, KC_MNXT,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          XXX,     XXX,     KC_BRID, KC_BRIU, XXX,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -209,7 +209,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          REDO,    COPY,    PAST,    CUT,     UNDO,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           MOD_LSFT,MOD_LCTL,MOD_LALT,MOD_LGUI,XXX,                          KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,
+           KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXX,                          KC_CAPS, KC_LEFT, KC_DOWN, KC_UP,   KC_RIGHT,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          KC_INS,  KC_HOME, KC_PGDN, KC_PGUP, KC_END,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -235,7 +235,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          KC_PWR,  PSPACE,  ALFRED,  KC_MCTL, NSPACE,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           MOD_LSFT,MOD_LCTL,MOD_LALT,MOD_LGUI,XXX,                          XXX,     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,
+           KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI, XXX,                          XXX,     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          XXX,     KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
@@ -313,7 +313,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
            KC_PSLS, KC_7,    KC_8,    KC_9,   KC_PAST,                       XXX,     XXX,     XXX,     XXX,     XXX,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           KC_F11,  KC_4,    KC_5,    KC_6,   KC_PMNS,                       XXX,     MOD_RGUI,MOD_RALT,MOD_RCTL,MOD_RSFT,
+           KC_F11,  KC_4,    KC_5,    KC_6,   KC_PMNS,                       XXX,     KC_RGUI, KC_RALT, KC_RCTL, KC_RSFT,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_PEQL, KC_1,    KC_2,    KC_3,   KC_PPLS,                       XXX,     XXX,     XXX,     XXX,     XXX,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
