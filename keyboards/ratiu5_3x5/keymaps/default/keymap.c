@@ -157,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            LSFT_A,  LCTL_R,  LALT_S,  LGUI_T,  KC_G,                         KC_M,    RGUI_N,  RALT_E,  RCTL_I,  RSFT_O,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,
+           KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM, KC_DOT,  QM_EXLA,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                       LT1_ESC, LT2_BSP, LT3_DEL,    LT4_ENT, LT5_SPC, LT6_TAB
         //                           |--------+--------+--------|  |--------+--------+--------|
@@ -219,7 +219,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       * ┌───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┐
       * │   │   │   │   │   │       │Pwr│SpL│Alf│Win│SpR│
       * ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
-      * │SFT│CTL│ALT│GUI│   │       │Slp│ < │ v │ ^ │ > │
+      * │SFT│CTL│ALT│GUI│   │       │ < │ v │ ^ │ > │SLP│
       * ├───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┤
       * │   │   │   │   │   │       │   │   │   │   │   │
       * └───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┘
@@ -233,9 +233,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //|--------------------------------------------|                    |--------------------------------------------|
            XXX,     XXX,     XXX,     XXX,     XXX,                          KC_PWR,  PSPACE,  ALFRED,  KC_MCTL, NSPACE,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           MOD_LSFT,MOD_LCTL,MOD_LALT,MOD_LGUI,XXX,                          XXX,     KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,
+           MOD_LSFT,MOD_LCTL,MOD_LALT,MOD_LGUI,XXX,                          KC_MS_L,  KC_MS_D, KC_MS_U, KC_MS_R, XXX,
         //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-           XXX,     XXX,     XXX,     XXX,     XXX,                          XXX,     KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R,
+           XXX,     XXX,     XXX,     XXX,     XXX,                          KC_WH_R,  KC_WH_U, KC_WH_D, KC_WH_L, XXX,
         //|--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------|
                                       VVV,     VVV,     VVV,        KC_BTN3, KC_BTN1, KC_BTN2
         //                           |--------+--------+--------|  |--------+--------+--------|
